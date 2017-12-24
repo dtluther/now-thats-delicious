@@ -1,5 +1,6 @@
-#### Outline of my steps
+## Outline of My Steps
 
+### Setup
 1) Setup a MongoDB database
     * Used mLab for this
         * MongoDB deployments &rarr; `Create New`
@@ -20,8 +21,54 @@
             * If it loads a database page, the database is live and the username and password are working
     * NOTE: Can manually create the DB via command line with MongoDB (if no internet conneection)
 
-2) Environment variables (`variables.env`)
-    * Building our app on a framework called Express
-        * Minimalist, does not do a whole lot by itself, so we have to choose which parts of the Node.js ecosystem we want (pretty typical of for Node)
-    * Environmental variables are where we store our sensitive and private information (passwords, API tokens, etc.)
-        * SHOULD NEVER GO INTO GIT REPO
+2) Starter files and environment variables (`variables.env`)
+    * `app.js`
+        * Imported libraries explained:
+            * (TBD)
+        * Building our app on a framework called Express
+            * Minimalist, does not do a whole lot by itself, so we have to choose which parts of the Node.js ecosystem we want (pretty typical of for Node)
+            * SHOULD NEVER GO INTO GIT REPO
+    * `start.js`
+        * Imports the `mongoose` library, which is our interface for MongoDB
+        * Imports our environmental variables from `variables.env`
+        * Connects to the DB and watches for errors
+        * Starts the app!
+            * Test with `npm start` in the terminal
+                * `package.json` has scripts explaining what commands like `npm start` do
+                    * `nodemon` package monitors files &ndash; anytime a file is changed, it will kill itself and restart the whole server again
+                    * `webpack -w` this will watch frontend files and compile JavaScript into bundle
+
+### Core Concepts
+1) Routing
+    * In `/routes/index.js` import Express, then grab the router from express:
+        ```
+        const router = express.Router()
+        ```
+    * Import routes into the `app.js` file:
+        ```
+        const routes = require('./routes/index');
+        ```
+        Then instruct the app to use the routes file anytime we go to `/`anything:
+        ```
+        app.use('/', routes);
+        ```
+    * How `router.get` works:
+        ```
+        router.get('/', (req, res) => {
+            console.log('Hey!!!')
+            res.send('Hey! It works!');
+            // const dillon = { name: 'Dillon', age: 100 }
+            // res.json( name: 'Dillon', age: 100 );
+        });        
+        ```
+        * Pass in the url, then a callback that takes the request and response (and a `next`, which will be addressed in middleware)
+            * `request`: object full of info coming in from the user
+            * `response`: object full of methods/info going back to the user
+        * Anytime we `console.log` in the router, it shows up in the terminal
+        * `res.send` sends a response back to the client
+        * `res.json` sends a JSON response to the client
+            * Commented out because we can't send data to the browser twice
+        * `req.query` is an object full of all the query string parameters
+            * The reasonw we can access these query parameters is because of the following middleware in `app.js`:
+                * `app.use(bodyParser.json());`
+                * `app.use(bodyParser.urlencoded({ extended: true }));`        
