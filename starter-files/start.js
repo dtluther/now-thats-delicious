@@ -15,7 +15,7 @@ mongoose.connect(process.env.DATABASE);
 mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
 mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
-});
+}); // Listening for errors, and will console.log them in the terminal for us
 
 // READY?! Let's go!
 
