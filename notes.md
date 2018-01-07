@@ -2,11 +2,12 @@
 
 ### Setup
 1) Setup a MongoDB database
+    * Make sure you have MongoDB installed
     * Used mLab for this
         * MongoDB deployments &rarr; `Create New`
             * Cloud Provider: AWS
             * Plan Type: Sandbox (Free)
-            * AWS Reagion: US-East 1
+            * AWS Region: US-East 1
     * `variables.env` file to sync DB
         * Replace the `DATABASE` string with the string provided by mLab:
             * Should follow form: `mongodb://user:pass@host.com:port/database`
@@ -22,12 +23,17 @@
     * NOTE: Can manually create the DB via command line with MongoDB (if no internet conneection)
 
 2) Starter files and environment variables (`variables.env`)
+    * `variables.env`
+        * Certain info should never go into our Git repo, so we can store it in a file like `variables.env`. Sensitive indo stored in here often includes:
+            * API tokens
+            * Server info
+        * SHOULD NEVER GO INTO GIT REPO
+        * Generally, where we store sensitive info, including:
     * `app.js`
         * Imported libraries explained:
             * (TBD)
         * Building our app on a framework called Express
             * Minimalist, does not do a whole lot by itself, so we have to choose which parts of the Node.js ecosystem we want (pretty typical of for Node)
-            * SHOULD NEVER GO INTO GIT REPO
     * `start.js`
         * Imports the `mongoose` library, which is our interface for MongoDB
         * Imports our environmental variables from `variables.env`
@@ -35,8 +41,8 @@
         * Starts the app!
             * Test with `npm start` in the terminal
                 * `package.json` has scripts explaining what commands like `npm start` do
-                    * `nodemon` package monitors files &ndash; anytime a file is changed, it will kill itself and restart the whole server again
-                    * `webpack -w` this will watch frontend files and compile JavaScript into bundle
+                    * `nodemon`: a package that monitors files &ndash; anytime a file is changed, it will kill itself and restart the whole server again
+                    * `webpack -w`: this will watch frontend files and compile JavaScript into bundle
 
 ### Core Concepts
 1) Routing
