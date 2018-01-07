@@ -65,6 +65,7 @@
             res.send('Hey! It works!');
             // const dillon = { name: 'Dillon', age: 100 }
             // res.json( name: 'Dillon', age: 100 );
+            // res.json(req.query)
         });        
         ```
         * Pass in the url, then a callback that takes the request and response (and a `next`, which will be addressed in middleware)
@@ -74,7 +75,20 @@
         * `res.send` sends a response back to the client
         * `res.json` sends a JSON response to the client
             * Commented out because we can't send data to the browser twice
-        * `req.query` is an object full of all the query string parameters
-            * The reasonw we can access these query parameters is because of the following middleware in `app.js`:
+        * `req.query` is an object full of all the query string parameters (the portion of the URL after the `?`)
+            * The reason we can access these query parameters is because of the following middleware in `app.js`:
                 * `app.use(bodyParser.json());`
-                * `app.use(bodyParser.urlencoded({ extended: true }));`        
+                * `app.use(bodyParser.urlencoded({ extended: true }));`
+                    * Before the routes are even hit, Express is going to check the URL if anyone has posted any data (from a form element, for instance). Things after the `?` will be included in `req.query`.
+        * `req.params` is an object that has all the variables in a route
+            ```
+            router.get('/reverse/:name', (req, res) => {
+                const reverse = 
+                res.send(req.params.name)
+            })
+            ```
+            * Text following a colon in a route (`:name`, in this case) is a variable, that we can access through `req.params`
+                * More in depth examples shown in the `routes/index.js` file
+        * `req.body` for posted params, more on that later
+* In summary, `req` has the information, `res` has all the methods for sending data back to the client
+    * Lots more in Express docs: http://expressjs.com/en/4x/api.html
